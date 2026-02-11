@@ -1,0 +1,20 @@
+% Code defining dimensions and DH parameters for group 7's drawbot
+
+clear L
+deg = pi/180;
+
+L(1) = Revolute('d', 0, ...   % link length (Dennavit-Hartenberg notation)
+    'a', 0, ...               % link offset (Dennavit-Hartenberg notation)
+    'alpha', 0, ...        % link twist (Dennavit-Hartenberg notation)
+    'qlim', [-160 160]*deg ); % minimum and maximum joint angle
+
+L(2) = Revolute('d', 1, ...   % link length (Dennavit-Hartenberg notation)
+    'a', 1, ...               % link offset (Dennavit-Hartenberg notation)
+    'alpha', 0, ...        % link twist (Dennavit-Hartenberg notation)
+    'qlim', [-160 160]*deg ); % minimum and maximum joint angle
+
+qz = [0 0]; % zero angles, L shaped pose
+
+drawbot = SerialLink(L, 'name', 'DrawBot', ...
+    'configs', {'qz', qz}, ...
+    'manufacturer', 'Unimation', 'ikine', 'puma', 'comment', 'viscous friction; params of 8/95');
