@@ -17,10 +17,9 @@ classdef DrawBot < SerialLink
             'offset', .0038*deg, ...
             'qlim', [-160 160]*deg ); % minimum and maximum joint angle
 
-            obj@SerialLink(L, 'name', 'DrawBot');
+            qz = zeros(length)
 
-            obj.qz = zeros(length(L));
-
+            obj@SerialLink(L, 'name', 'DrawBot')
         end
     end
 end
