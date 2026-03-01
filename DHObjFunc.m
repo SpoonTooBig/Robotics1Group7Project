@@ -7,20 +7,13 @@ function [e] = DHObjFunc(DH_parameters)
     L(2) = Link('revolute', 'd',DH_parameters(2,1),'a', DH_parameters(2,2),'alpha',DH_parameters(2,3),'offset',DH_parameters(2,4),'standard');%Link 2
     jRobot = SerialLink(L,'name','Jeni Robot');
 
-    jRobot.base = transl(DH_parameters(1,5), DH_parameters(2,5), 0);
+    jRobot.base = transl(DH_parameters(1,5), DH_parameters(2,5), 7.8);
     
     e = 0;%initalize error
     
     %for loop here
     for i = 1:5
-        % get pose
-
-
-
-
-        
-        
-        
+        % get pose         
         q = [theta(i, 1), theta(i, 2)];
         %compute the forward kinematics
         T = jRobot.fkine(q);
