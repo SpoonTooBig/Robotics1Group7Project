@@ -14,6 +14,13 @@ function [e] = DHObjFunc(DH_parameters)
     %for loop here
     for i = 1:5
         % get pose
+
+
+
+
+        
+        
+        
         q = [theta(i, 1), theta(i, 2)];
         %compute the forward kinematics
         T = jRobot.fkine(q);
