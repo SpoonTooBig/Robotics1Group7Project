@@ -28,5 +28,5 @@ function [e] = DHObjFunc(DH_parameters, plot)
         e = e + sqrt((xPosition-data(i,1))^2 + (yPosition-data(i,2))^2 );%use the distance formula
     
     end
-    e = e/5 %divide by five because there are 5 data points
+    e = e/5; %divide by five because there are 5 data points
 end

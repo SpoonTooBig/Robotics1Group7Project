@@ -1,5 +1,5 @@
-function [e] = DHObjFunc(DH_parameters, plot)
-    theta = [0 0; 90 0; 90 -90; 135 0; 90 -45];
+function [opt, e] = DHObjFunc(DH_parameters, plot)
+    theta = [0 0; 90 0; 90 -90; 135 0; 90 -45]*pi/180;
     data = [21 8.5; 5 9.5; 13.5 20.2; 1.5 1.8; 6 16.5];
     
     %create a new robot using the input Dh parameters
