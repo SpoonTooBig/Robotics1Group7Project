@@ -10,9 +10,10 @@ base = [12.2; 1.8];
 
 x0_params = [dhParams base];
 options = optimset('OutputFcn',@save_history, 'MaxFunEvals', 1000);
-[x, err] = fminsearch(@(robotParams)DHObjFunc(robotParams, 0), x0_params, options);
+[dhParams, error] = fminsearch(@(robotParams)DHObjFunc(robotParams, 0), x0_params, options);
 
-disp(err)
+dhParams
+error
 
 % Plot the captured history
 figure;
