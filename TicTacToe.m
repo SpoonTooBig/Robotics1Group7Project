@@ -28,8 +28,15 @@ classdef TicTacToe
 
         function DrawLine(obj, x1, y1, x2, y2)
             % MoveTo x1,y1
+            obj.MoveTo(obj, x1, y1)
             % Use y=mx+b to generate function along the desired line
-            % Generate a list of joint angle pairs to follow said line
+            m = (y2-y1)/(x2-x1);
+            b = m*x1 - y1;
+            % Iterate through line at an step size of .2 cm
+            for x = x1:0.2:x2
+                y = m*x + b;
+                MoveTo(x, y);
+            end
         end
         
         function MoveTo(obj, x, y)
