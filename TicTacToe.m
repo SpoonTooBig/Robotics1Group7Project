@@ -26,6 +26,31 @@ classdef TicTacToe
             end
         end
 
+        function DrawCircle(obj, xc, yc, r)
+            
+            x0 = xc + r;
+            y0 = yc;
+            % Move to starting point of the circle
+            obj.MoveTo(x0, y0);
+            pause(1);
+
+            obj.LowerPen();
+
+            % Angle step currently 0.1cm step size
+            %th is theta
+            for th = 0:0.1:2*pi
+        
+                 x = xc + r*cos(th);
+                 y = yc + r*sin(th);
+                 disp([x, y])
+                 obj.MoveTo(x, y);
+        
+            end
+
+            obj.RaisePen();
+
+        end
+        
         function DrawLine(obj, x1, y1, x2, y2)
             % MoveTo x1,y1
             obj.MoveTo(x1, y1)
