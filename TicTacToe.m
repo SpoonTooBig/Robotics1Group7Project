@@ -13,7 +13,12 @@ classdef TicTacToe
     methods
         function obj = TicTacToe()
             %TICTACTOE Construct an instance of this class
-            %   Detailed explanation goes here
+            % obj. It first checks if a comPort has been found, where if it
+            % has been found then it connects the obj to the arduino
+            % property. servo 1 is connented to digital pin D5 on the arduino.
+            % servo2 is connected to digital pin D6 on the Arduino. The
+            % servo connected to the pen that will draw on paper (penServo)
+            % is connceted to digital pin D7 on the Arduino. 
             comPorts = serialportlist("available");
             if ~isempty(comPorts)
                 obj.ar = arduino(comPorts(1), 'Uno');
@@ -67,13 +72,14 @@ classdef TicTacToe
         end
         
         function MoveTo(obj, x, y)
-
+            %do inverse kinematics to find angles that robot is at
             angles = obj.robot.ikine(transl(x, y, 0),'mask', [1 1 0 0 0 0]);
             
+            %rescale the angles for each servo
             sAngle1 = 1.0 - rescale(angles(1), 0.0, 1.0, 'InputMin', -25*(pi/180), 'InputMax', 165*(pi/180));
             sAngle2 = 1.0 - rescale(angles(2), 0.0, 1.0, 'InputMin', -160*(pi/180), 'InputMax', 60*(pi/180));
 
-
+            %use writePosition to control the servos connected to arduino
             writePosition(obj.servo1, sAngle1)
             writePosition(obj.servo2, sAngle2)
 
