@@ -23,9 +23,10 @@ classdef Grid < handle
         end
         
         function drawGrid(obj)
+            disp(obj.parent)
             for i = 1:2
-                obj.parent.DrawLine(obj.x + obj.cellwidth*i, obj.y, obj.x + obj.cellwidth*i, obj.y - obj.width); % draw vertical lines
-                obj.parent.DrawLine(obj.x, obj.y - obj.cellwidth*i, obj.x +obj.width, obj.y - obj.cellwidth*i);
+                obj.parent.DrawLine((obj.x + obj.cellwidth*i), obj.y, (obj.x + obj.cellwidth*i), (obj.y - obj.width)); % draw vertical lines
+                obj.parent.DrawLine(obj.x, (obj.y - obj.cellwidth*i), (obj.x + obj.width), (obj.y - obj.cellwidth*i));
             end
         end
 
@@ -65,6 +66,18 @@ classdef Grid < handle
             
             c = obj.getCenter(index);
             obj.parent.DrawCircle(c(1), c(2), (obj.cellwidth-1)/2)
+        end
+
+        function resetGrid(obj)
+            obj.state = [-1 -1 -1 -1 -1 -1 -1 -1 -1];
+        end
+
+        function isfull = IsFull(obj)
+            if ~ismember(-1, obj.state)
+                isfull = true;
+            else
+                isfull = false;
+            end
         end
     end
 end

@@ -1,4 +1,4 @@
-classdef TicTacToe
+classdef TicTacToe < handle
     %TICTACTOE Summary of this class goes here
     %   Detailed explanation goes here
 
