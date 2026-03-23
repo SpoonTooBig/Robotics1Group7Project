@@ -25,6 +25,12 @@ classdef TicTacToe
                 exit
             end
         end
+        
+        function DrawX(obj, xc, yc, width)
+            offset = width/2;
+            DrawLine(obj, xc-offset, yc+offset, xc+offset, yc-offset)
+            DrawLine(obj, xc+offset, yc+offset, xc-offset, yc-offset)
+        end
 
         function DrawCircle(obj, xc, yc, r)
             
@@ -52,30 +58,61 @@ classdef TicTacToe
         end
         
         function DrawLine(obj, x1, y1, x2, y2)
+            obj.RaisePen()
             % MoveTo x1,y1
             obj.MoveTo(x1, y1)
-            pause(1);
+            pause(.5);
+            obj.LowerPen()
+            pause(.5);
+
             % Use y=mx+b to generate function along the desired line
             m = (y2-y1)/(x2-x1);
             b = y1 - m*x1;
-            % Iterate through line at an step size of .2 cm
-            for x = x1:0.2:x2
-                y = m*x + b;
-                disp([x, y])
-                obj.MoveTo(x, y);
+
+            if isinf(m)
+                % vertical line case
+                if y2 > y1                    
+                    for y = y1:0.2:y2
+                        disp([x1, y])
+                        obj.MoveTo(x1, y);
+                    end
+                else 
+                    for y = y1:-0.2:y2
+                        disp([x1, y])
+                        obj.MoveTo(x1, y);
+                    end
+                end
+                obj.RaisePen();
+                return
             end
+
+            % Iterate through line at an step size of .2 cm
+            
+            if x2 > x1
+                for x = x1:0.2:x2
+                    y = m*x + b;
+                    disp([x, y])
+                    obj.MoveTo(x, y);
+                end
+            else
+                for x = x1:-0.2:x2
+                    y = m*x + b;
+                    disp([x, y])
+                    obj.MoveTo(x, y);
+                end
+            end
+            obj.RaisePen();
         end
         
         function MoveTo(obj, x, y)
-
             angles = obj.robot.ikine(transl(x, y, 0),'mask', [1 1 0 0 0 0]);
             
             sAngle1 = 1.0 - rescale(angles(1), 0.0, 1.0, 'InputMin', -25*(pi/180), 'InputMax', 165*(pi/180));
             sAngle2 = 1.0 - rescale(angles(2), 0.0, 1.0, 'InputMin', -160*(pi/180), 'InputMax', 60*(pi/180));
 
 
-            writePosition(obj.servo1, sAngle1)
-            writePosition(obj.servo2, sAngle2)
+            writePosition(obj.servo1, sAngle1);
+            writePosition(obj.servo2, sAngle2);
 
         end
 

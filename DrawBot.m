@@ -5,16 +5,16 @@ classdef DrawBot < SerialLink
     methods
         function obj = DrawBot()
             deg = pi/180;
-            L(1) = Revolute('d', 1.8, ...   % link length (Dennavit-Hartenberg notation)
-            'a', 9.5, ...               % link offset (Dennavit-Hartenberg notation)
+            L(1) = Revolute('d', 2.026, ...   % link length (Dennavit-Hartenberg notation)
+            'a', 10.062, ...               % link offset (Dennavit-Hartenberg notation)
             'alpha', 0, ...        % link twist (Dennavit-Hartenberg notation)
-            'offset', 0*deg, ...
+            'offset', -0.002, ...
             'qlim', [-160 160]*deg ); % minimum and maximum joint angle
         
-            L(2) = Revolute('d', 1.8, ...   % link length (Dennavit-Hartenberg notation)
-            'a', 8, ...               % link offset (Dennavit-Hartenberg notation)
+            L(2) = Revolute('d', 2.081, ...   % link length (Dennavit-Hartenberg notation)
+            'a', 8.118, ...               % link offset (Dennavit-Hartenberg notation)
             'alpha', 0, ...        % link twist (Dennavit-Hartenberg notation)
-            'offset', 115*deg, ...
+            'offset', 1.776, ...
             'qlim', [-160 160]*deg ); % minimum and maximum joint angle
 
             obj@SerialLink(L, 'name', 'DrawBot');
