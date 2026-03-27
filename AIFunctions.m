@@ -1,7 +1,7 @@
 classdef AIFunctions
 
     properties
-        apiKey = "YOUR_ENTERPRISE";
+        apiKey = "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";
         model = "gpt-5.2"
     end
 
