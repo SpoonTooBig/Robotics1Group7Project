@@ -4,7 +4,7 @@ classdef Grid < handle
 
     properties
         width;
-        state; % State of the board starting at top left, -1 is null, 0 is O, 1 is X
+        state; % State of the board starting at top left, N is null
         x;
         y;
         cellwidth;
@@ -15,7 +15,7 @@ classdef Grid < handle
         function obj = Grid(x, y, width, parent)
             obj.x = x;
             obj.y = y;
-            obj.state = [0 0 0 0 0 0 0 0 0];%0 is empty space
+            obj.state = ['N' 'N' 'N' 'N' 'N' 'N' 'N' 'N' 'N'];%0 is empty space
             obj.width = width;
             obj.cellwidth = width/3;
             obj.parent = parent;
@@ -42,65 +42,63 @@ classdef Grid < handle
         end
 
         function addX(obj, index) % add an X to the board at a specified index 1-9       
-            disp(obj.state(index))
-            if obj.state(index) ~= 0
+            if obj.state(index) ~= 'N'
                 % If something is already in this cell, do nothing
                 disp("Spot already marked!")
                 return
             end
 
-            obj.state(index) = 2;
+            obj.state(index) = 'X';
             
             c = obj.getCenter(index);
             obj.parent.DrawX(c(1), c(2), obj.cellwidth-1)
         end
 
         function addO(obj, index) % add an O to the board at a specified index 1-9       
-            if obj.state(index) ~= 0
+            if obj.state(index) ~= 'N'
                 % If something is already in this cell, do nothing
                 disp("Spot already marked!")
                 return
             end
 
-            obj.state(index) = 3;
+            obj.state(index) = 'O';
             
             c = obj.getCenter(index);
             obj.parent.DrawCircle(c(1), c(2), (obj.cellwidth-1)/2)
         end
 
         function resetGrid(obj)
-            obj.state = [0 0 0 0 0 0 0 0 0];
+            obj.state = ['N' 'N' 'N' 'N' 'N' 'N' 'N' 'N' 'N'];
         end
 
         function isfull = IsFull(obj)
-            if ~ismember(0, obj.state)
+            if ~ismember('N', obj.state)
                 isfull = true;
             else
                 isfull = false;
             end
         end
 
-        function isWinner(obj)
-            %Row sums to check for wins
-            WinRow1 = obj.state(1) + obj.state(2) + obj.state(3);
-            WinRow2 = obj.state(4) + obj.state(5) + obj.state(6);
-            WinRow3 = obj.state(7) + obj.state(8) + obj.state(9);
+        function winner = isWinner(obj)
+            winner = '';
+            %Row sums to check for wins             
+            WinRow1 = strcat(obj.state(1), obj.state(2), obj.state(3));             
+            WinRow2 = strcat(obj.state(4), obj.state(5), obj.state(6));             
+            WinRow3 = strcat(obj.state(7), obj.state(8), obj.state(9));              
+            
+            %column sums to check for wins             
+            WinCol1 = strcat(obj.state(1), obj.state(4), obj.state(7));             
+            WinCol2 = strcat(obj.state(2), obj.state(5), obj.state(8));             
+            WinCol3 = strcat(obj.state(3), obj.state(6), obj.state(9));              
+            
+            %diagonal sums to check for wins             
+            WinDiag1 = strcat(obj.state(1), obj.state(5), obj.state(9));             
+            WinDiag2 = strcat(obj.state(3), obj.state(5), obj.state(7));
 
-            %column sums ito check for wins
-            WinCol1 = obj.state(1) + obj.state(2) + obj.state(3);
-            WinCol2 = obj.state(4) + obj.state(5) + obj.state(6);
-            WinCol3 = obj.state(7) + obj.state(8) + obj.state(9);
-
-            %diagonal sums to check for wins
-            WinDiag1 = obj.state(1) + obj.state(5) + obj.state(9);
-            WinDiag2 = obj.state(3) + obj.state(5) + obj.state(7);
-
-            if (WinRow1 == 6) || (WinRow2== 6) || (WinRow3 == 6) || (WinCol1 == 6)|| (WinCol2 == 6)|| (WinCol3== 6) || (WinDiag1== 6) || (WinDiag2== 6)
-                disp('X wins the game!');
-            elseif (WinRow1 == 9) || (WinRow2== 9) || (WinRow3 == 9) || (WinCol1 == 9)|| (WinCol2 == 9)|| (WinCol3== 9) || (WinDiag1== 9) || (WinDiag2== 9)
-                disp('O wins the game!');
-            else
-                disp('No winner yet.')
+            if (WinRow1 == "XXX") | (WinRow2== "XXX") | (WinRow3 == "XXX") | (WinCol1 == "XXX")| (WinCol2 == "XXX")| (WinCol3== "XXX") | (WinDiag1== "XXX") | (WinDiag2== "XXX")
+                winner = 'X'; % X wins
+            elseif (WinRow1 == "OOO") | (WinRow2== "OOO") | (WinRow3 == "OOO") | (WinCol1 == "OOO")| (WinCol2 == "OOO")| (WinCol3== "OOO") | (WinDiag1== "OOO") | (WinDiag2== "OOO")
+                winner = 'O'; % O wins
             end
         end
     end

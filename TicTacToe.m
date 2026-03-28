@@ -53,7 +53,6 @@ classdef TicTacToe < handle
         
                  x = xc + r*cos(th);
                  y = yc + r*sin(th);
-                 disp([x, y])
                  obj.MoveTo(x, y);
         
             end
@@ -78,12 +77,10 @@ classdef TicTacToe < handle
                 % vertical line case
                 if y2 > y1                    
                     for y = y1:0.2:y2
-                        disp([x1, y])
                         obj.MoveTo(x1, y);
                     end
                 else 
                     for y = y1:-0.2:y2
-                        disp([x1, y])
                         obj.MoveTo(x1, y);
                     end
                 end
@@ -96,13 +93,11 @@ classdef TicTacToe < handle
             if x2 > x1
                 for x = x1:0.2:x2
                     y = m*x + b;
-                    disp([x, y])
                     obj.MoveTo(x, y);
                 end
             else
                 for x = x1:-0.2:x2
                     y = m*x + b;
-                    disp([x, y])
                     obj.MoveTo(x, y);
                 end
             end
