@@ -39,24 +39,28 @@ classdef AIFunctions
         end
 
         % Board conversion
-        % Grid: 0 empty, 2 = X, 3 = O
+        % Grid: N = 0 empty, X = 1, O = 2
         % AI:   0 empty, 1 = X, 2 = O
 
         function aiBoard = ConvertBoardToAI(~, board)
-
-            aiBoard = zeros(size(board));
-
-            for i = 1:length(board)
-                if board(i) == 2
-                    aiBoard(i) = 1; % X
-                elseif board(i) == 3
-                    aiBoard(i) = 2; % O
-                else
-                    aiBoard(i) = 0;
-                end
-            end
-
-        end
+ 
+              aiBoard = zeros(size(board));
+ 
+              for i = 1:length(board)
+ 
+                  if board(i) == 'X'
+                      aiBoard(i) = 1;   % X → 1
+ 
+                  elseif board(i) == 'O'
+                      aiBoard(i) = 2;   % O → 2
+ 
+                  else
+                      aiBoard(i) = 0;   % N (empty) → 0
+                  end
+ 
+              end
+ 
+         end
 
         % CHATGPT move
 
