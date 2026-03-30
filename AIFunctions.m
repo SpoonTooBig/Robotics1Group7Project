@@ -1,14 +1,17 @@
 classdef AIFunctions
 
     properties
-        apiKey = "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";
+        apiKey;
         model = "gpt-5.2"
     end
 
     methods
         
         function obj = AIFunctions(apiKey)
-            obj.apiKey = apiKey;
+            % Only assign if an argument was actually provided
+            if nargin > 0
+                obj.apiKey = apiKey;
+            end
         end
 
        
@@ -65,35 +68,26 @@ classdef AIFunctions
         % CHATGPT move
 
         function move = GetChatGPTMove(obj, board)
-
-            try
-                boardStr = sprintf('%d ', board);
-
-                prompt = [
-                    "You are an unbeatable Tic Tac Toe AI.\n" + ...
-                    "Positions:\n1 2 3\n4 5 6\n7 8 9\n" + ...
-                    "Board (0 empty, 1=X, 2=O): " + boardStr + "\n" + ...
-                    "Return ONLY a number 1-9."
-                ];
-
-                response = openAIChat( ...
-                    "apiKey", obj.apiKey, ...
-                    "model", obj.model, ...
-                    "messages", {struct("role","user","content",prompt)} ...
-                );
-
-                text = response.choices(1).message.content;
-
-                move = str2double(regexp(text, '\d+', 'match', 'once'));
-
-                if isnan(move)
-                    move = -1;
-                end
-
-            catch
+            boardStr = sprintf('%d ', board);
+                
+            prompt = [
+                "You are an unbeatable Tic Tac Toe AI.\n" + ...
+                "Positions:\n1 2 3\n4 5 6\n7 8 9\n" + ...
+                "Board (0 empty, 1=X, 2=O): " + boardStr + "\n" + ...
+                "Return ONLY a number 1-9."
+            ];
+        
+            chat = openAIChat("You are an unbeatable Tic Tac Toe AI.", ...
+                "APIKey", obj.apiKey, ... 
+                "ModelName", "gpt-4o"); % Note: "gpt-5.2" does not exist; use "gpt-4o"
+        
+            text = generate(chat, prompt);
+        
+            move = str2double(regexp(text, '\d+', 'match', 'once'));
+        
+            if isnan(move)
                 move = -1;
             end
-
         end
 
         % MINIMAX (PERFECT AI)
