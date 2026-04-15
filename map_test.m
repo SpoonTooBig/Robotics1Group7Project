@@ -24,6 +24,6 @@ goal = [50,50];
 start = [1,2];
 dx = DXform(map);
 dx.plan(goal);
-p = dx.query(start,'animate');
+p = dx.query(start,'animate')
 %p = dx.path(start);
-numrows(p)
+numrows(p);
