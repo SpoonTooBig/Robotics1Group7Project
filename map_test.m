@@ -20,17 +20,14 @@ xlabel('X-axis');
 ylabel('Y-axis');
 
 
-goal1 = [50,50];
-goal2 = [1,100];
-goal3 = [100,100];
-goal4 = [100,1];
+goal = [50,50];
 start = [1,2];
 
 waypoints = [goal2;goal3;goal4;goal1];
 for i = 1:length(waypoints)
     goal = waypoints(i,:);
-    dx = DXform(map);
-    dx.plan(goal);
+dx = DXform(map);
+dx.plan(goal);
     path_segment = dx.query(start, 'animate');
     
     % Concatenate the new segment to the total path
@@ -42,6 +39,6 @@ end
 
 % dx = DXform(map);
 % dx.plan(goal2);
-% p = dx.query(start,'animate');
+p = dx.query(start,'animate')
 %p = dx.path(start);
 numrows(p)
