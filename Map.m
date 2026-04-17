@@ -25,44 +25,44 @@ classdef Map < handle
         function map = MakeMap(obj)
             map = zeros(100,100);
             
+            obj.parent.RaisePen();
             map(84:90,8:40) = 1;%left eyebrow
             obj.drawBox(8,40,84,90);
+            obj.parent.RaisePen();
 
             map(84:90,60:92) = 1;%right eyebrow
             obj.drawBox(60,92,84,90);
-            
+            obj.parent.RaisePen();
+
             map(66:78,22:36) = 1;%left eye
             obj.drawBox(22,36,66,78);
-            
+            obj.parent.RaisePen();
+
             map(66:78,64:78) = 1;%right eye
             obj.drawBox(64,78,66,78);
-            
+            obj.parent.RaisePen();
+
             map(40:46,40:60) = 1;%nose
             obj.drawBox(40,60,40,46);
-            
+            obj.parent.RaisePen();
+
             map(24:50,10:16) = 1;%left smile 
             obj.drawBox(10,16,24,50);
-            
+            obj.parent.RaisePen();
+
             map(24:50,84:90) = 1;%right smile 
             obj.drawBox(84,90,24,50);
-            
+            obj.parent.RaisePen();
+
             map(10:24,10:90) = 1;%bottom smile
             obj.drawBox(10,90,10,24);
+            obj.parent.RaisePen();
         end
         
         function drawBox(obj, x0, x1, y0, y1) % example for range : [84 90 8 40] y0 y1 x0 x1
             p1 = obj.MapToLocation([x0 y0]);
-            p2 = obj.MapToLocation([x0 y1]);
-            obj.parent.DrawLine(p1(1), p1(2), p2 (1), p2(2));
-            p1 = obj.MapToLocation([x0 y1]);
             p2 = obj.MapToLocation([x1 y1]);
-            obj.parent.DrawLine(p1(1), p1(2), p2 (1), p2(2));
-            p1 = obj.MapToLocation([x1 y1]);
-            p2 = obj.MapToLocation([x1 y0]);
-            obj.parent.DrawLine(p1(1), p1(2), p2 (1), p2(2));
-            p1 = obj.MapToLocation([x1 y0]);
-            p2 = obj.MapToLocation([x0 y0]);
-            obj.parent.DrawLine(p1(1), p1(2), p2 (1), p2(2));
+            obj.parent.drawBox(p1(1), p1(2), p2(1), p2(2))
         end
 
         function loc = MapToLocation(obj, point)
@@ -80,8 +80,9 @@ classdef Map < handle
             for i = 2:length(p)
                 p1 = MapToLocation(obj, p(i-1, :));
                 p2 = MapToLocation(obj, p(i, :));
-                obj.parent.DrawLine(p1(1), p1(2), p2 (1), p2(2));
+                obj.parent.DrawLine(p1(1), p1(2), p2 (1), p2(2), true);
             end
+            obj.parent.raisePen()
         end
     end
 end

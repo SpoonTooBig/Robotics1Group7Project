@@ -61,14 +61,25 @@ classdef TicTacToe < handle
 
         end
         
-        function DrawLine(obj, x1, y1, x2, y2)
-            obj.RaisePen();
-            % MoveTo x1,y1
-            obj.MoveTo(x1, y1);
-            % pause(.5);
-            obj.LowerPen()
-            % pause(.5);
+        function DrawLine(obj, x1, y1, x2, y2, leavePenDown)
+            arguments
+                obj;
+                x1;
+                y1;
+                x2;
+                y2;
+                leavePenDown = false;
+            end
 
+            if ~leavePenDown
+                obj.RaisePen();
+            end
+            obj.MoveTo(x1, y1);
+            
+            obj.LowerPen()
+            if ~leavePenDown
+                pause(.5);
+            end
             % Use y=mx+b to generate function along the desired line
             m = (y2-y1)/(x2-x1);
             b = y1 - m*x1;
@@ -101,9 +112,21 @@ classdef TicTacToe < handle
                     obj.MoveTo(x, y);
                 end
             end
-            obj.RaisePen();
+
+            if ~leavePenDown
+                obj.RaisePen();
+            end
         end
         
+        function drawBox(obj, x0, y0, x1, y1) % example for range : [84 90 8 40] y0 y1 x0 x1           
+            obj.RaisePen();
+            obj.MoveTo(x0, y0);
+            pause(.3);
+            obj.DrawLine(x0, y0, x0, y1,true);
+            obj.DrawLine(x0, y1, x1, y1,true);
+            obj.DrawLine(x1, y1, x1, y0,true);
+            obj.DrawLine(x1, y0, x0, y0,true);
+        end
         function MoveTo(obj, x, y)
             %do inverse kinematics to find angles that robot is at
             angles = obj.robot.ikine(transl(x, y, 0),'mask', [1 1 0 0 0 0]);
@@ -123,7 +146,7 @@ classdef TicTacToe < handle
         end
 
         function LowerPen(obj)
-            writePosition(obj.penServo, 0.2)
+            writePosition(obj.penServo, 0.3)
         end
     end
 end
