@@ -62,12 +62,12 @@ classdef TicTacToe < handle
         end
         
         function DrawLine(obj, x1, y1, x2, y2)
-            obj.RaisePen()
+            obj.RaisePen();
             % MoveTo x1,y1
-            obj.MoveTo(x1, y1)
-            pause(.5);
+            obj.MoveTo(x1, y1);
+            % pause(.5);
             obj.LowerPen()
-            pause(.5);
+            % pause(.5);
 
             % Use y=mx+b to generate function along the desired line
             m = (y2-y1)/(x2-x1);
@@ -84,7 +84,7 @@ classdef TicTacToe < handle
                         obj.MoveTo(x1, y);
                     end
                 end
-                obj.RaisePen();
+                % obj.RaisePen();
                 return
             end
 
