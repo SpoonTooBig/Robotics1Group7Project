@@ -69,7 +69,7 @@ classdef Map < handle
             p2 = obj.MapToLocation([x1 y1]);
             obj.parent.drawBox(p1(1), p1(2), p2(1), p2(2))
             Ts1 = toc;
-            fprintf(' Time is : %4f seconds\n' , Ts1)
+            fprintf(' Time is to draw the maze is: %4f seconds\n' , Ts1)
             
         end
 
@@ -82,7 +82,7 @@ classdef Map < handle
 
         
         function NavigateMap(obj, goal, start)
-            tic;
+            
             dx = DXform(obj.map);
             dx.plan(goal);
             p = dx.query(start);
@@ -111,6 +111,7 @@ classdef Map < handle
             end
 
             %%Draw Path
+            tic;
             for i = 2:length(p)
                 p1 = MapToLocation(obj, p(i-1, :));
                 p2 = MapToLocation(obj, p(i, :));
@@ -119,7 +120,7 @@ classdef Map < handle
             obj.parent.raisePen()
             Ts2 = toc;
             TotalTime = Ts1 + Ts2;
-            fprintf('Total Time: %4f seconds\n' , TotalTime);
+            fprintf('Time to draw the path is: %4f seconds\n' , Ts2);
             fprintf('Path Length: %.2f\n', pathLength);
             fprintf('Smoothness: %.2f radians\n', smoothness);
             
