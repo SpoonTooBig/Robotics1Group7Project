@@ -24,6 +24,7 @@ classdef Map < handle
        
         
         function map = MakeMap(obj)
+            tic;
             
             map = zeros(100,100);
             
@@ -59,18 +60,16 @@ classdef Map < handle
             map(10:24,10:90) = 1;%bottom smile
             obj.drawBox(10,90,10,24);
             obj.parent.RaisePen();
-            
+
+            Ts1 = toc;
+            fprintf(' Time is to draw the maze is: %4f seconds\n' , Ts1)
         end
         
         
         function drawBox(obj, x0, x1, y0, y1) % example for range : [84 90 8 40] y0 y1 x0 x1
-            tic;
             p1 = obj.MapToLocation([x0 y0]);
             p2 = obj.MapToLocation([x1 y1]);
             obj.parent.drawBox(p1(1), p1(2), p2(1), p2(2))
-            Ts1 = toc;
-            fprintf(' Time is to draw the maze is: %4f seconds\n' , Ts1)
-            
         end
 
         function loc = MapToLocation(obj, point)
@@ -81,7 +80,7 @@ classdef Map < handle
         end
 
         
-        function NavigateMap(obj, goal, start,method)
+        function NavigateMap(obj, goal, start, method)
             if method == 0
                 %DXform method
                 dx = DXform(obj.map);
@@ -92,17 +91,23 @@ classdef Map < handle
                 ds = Dstar(obj.map);
                 ds.plan(goal)
                 p = ds.query(start);
-            else
+            elseif method == 2
                 %PRM method
-                p = 1;
+                prm = PRM(obj.map);
+                prm.plan(goal);
+                prm_path = prm.query(start, goal)
+                prm.plot(prm_path)
+                p = prm_path;
             end
             %%Pathlength
             dx_v = diff(p(:,1));
             dy_v = diff(p(:,2));
             segmentLengths = sqrt(dx_v.^2 + dy_v.^2);
             pathLength = sum(segmentLengths);
+
             %%Smoothness
             smoothness = 0;
+
 
             for i = 2:size(p,1)-1
                 v1 = p(i,:) - p(i-1,:);
@@ -120,26 +125,28 @@ classdef Map < handle
             end
 
             %%Draw Path
+            p0 = MapToLocation(obj, p(1, :))
+            obj.parent.MoveTo(p0(1), p0(2));
+            pause(.5)
             tic;
             for i = 2:length(p)
                 p1 = MapToLocation(obj, p(i-1, :));
                 p2 = MapToLocation(obj, p(i, :));
                 obj.parent.DrawLine(p1(1), p1(2), p2 (1), p2(2), true);
             end
-            obj.parent.raisePen()
-            Ts2 = toc;
-            TotalTime = Ts1 + Ts2;
-            fprintf('Time to draw the path is: %4f seconds\n' , Ts2);
+            obj.parent.RaisePen()
+            Ts1 = toc;
+            fprintf(' Time is to navigate the maze is: %4f seconds\n' , Ts1)
             fprintf('Path Length: %.2f\n', pathLength);
             fprintf('Smoothness: %.2f radians\n', smoothness);
             
-            figure;
-            scatter3(TotalTime, pathLengths, smoothness, 120, 'filled');
-            xlabel('Time');
-            ylabel('Path Length');
-            zlabel('Smoothness');
-            title('Run-to-Run Comparison');
-            grid on;
+            % figure;
+            % scatter3(Ts1, pathLengths, smoothness, 120, 'filled');
+            % xlabel('Time');
+            % ylabel('Path Length');
+            % zlabel('Smoothness');
+            % title('Run-to-Run Comparison');
+            % grid on;
             
         end
     end
