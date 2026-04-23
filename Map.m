@@ -66,12 +66,14 @@ classdef Map < handle
         end
         
         
-        function drawBox(obj, x0, x1, y0, y1) % example for range : [84 90 8 40] y0 y1 x0 x1
+        function drawBox(obj, x0, x1, y0, y1)
             p1 = obj.MapToLocation([x0 y0]);
             p2 = obj.MapToLocation([x1 y1]);
             obj.parent.drawBox(p1(1), p1(2), p2(1), p2(2))
         end
 
+        % Translates map coordinates to the correct location in the
+        % physical world
         function loc = MapToLocation(obj, point)
             loc_x = rescale(point(1), obj.x, obj.x + obj.width,'InputMin', 1, 'InputMax', 100);
             loc_y = rescale(point(2), obj.y, obj.y + obj.height,'InputMin', 1, 'InputMax', 100);
@@ -79,7 +81,8 @@ classdef Map < handle
             loc = [loc_x loc_y];
         end
 
-        
+        % Invokes path planning algorithms to find path from start to goal
+        % using specified method
         function NavigateMap(obj, goal, start, method)
             if method == 0
                 %DXform method
@@ -99,16 +102,16 @@ classdef Map < handle
                 prm.plot(prm_path)
                 p = prm_path;
             end
-            %%Pathlength
+            % Pathlength tracking
             dx_v = diff(p(:,1));
             dy_v = diff(p(:,2));
             segmentLengths = sqrt(dx_v.^2 + dy_v.^2);
             pathLength = sum(segmentLengths);
 
-            %%Smoothness
+            % Smoothness tracking
             smoothness = 0;
 
-
+            % Iterates over list of points to calculate smoothness of path
             for i = 2:size(p,1)-1
                 v1 = p(i,:) - p(i-1,:);
                 v2 = p(i+1,:) - p(i,:);
@@ -124,7 +127,8 @@ classdef Map < handle
                 smoothness = smoothness + abs(theta);
             end
 
-            %%Draw Path
+            % Draw Path by moving to initial point and then moving to each
+            % point in determined path plan
             p0 = MapToLocation(obj, p(1, :))
             obj.parent.MoveTo(p0(1), p0(2));
             pause(.5)
