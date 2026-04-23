@@ -81,12 +81,21 @@ classdef Map < handle
         end
 
         
-        function NavigateMap(obj, goal, start)
-            
-            dx = DXform(obj.map);
-            dx.plan(goal);
-            p = dx.query(start);
-            
+        function NavigateMap(obj, goal, start,method)
+            if method == 0
+                %DXform method
+                dx = DXform(obj.map);
+                dx.plan(goal);
+                p = dx.query(start);
+            elseif method == 1
+                %D* method
+                ds = Dstar(obj.map);
+                ds.plan(goal)
+                p = ds.query(start);
+            else
+                %PRM method
+                p = 1;
+            end
             %%Pathlength
             dx_v = diff(p(:,1));
             dy_v = diff(p(:,2));

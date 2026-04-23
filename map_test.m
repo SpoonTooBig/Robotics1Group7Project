@@ -19,11 +19,11 @@ title('100x100 Costmap');
 xlabel('X-axis');
 ylabel('Y-axis');
 
-%map(1,:) = 1;
+
 goal = [50,50];
 start = [1,2];
 
-waypoints = [goal2;goal3;goal4;goal1];
+waypoints = [goal2;goal3;goal4;goal1];%points around perimeter and final goal
 for i = 1:length(waypoints)
     goal = waypoints(i,:);
 dx = DXform(map);
