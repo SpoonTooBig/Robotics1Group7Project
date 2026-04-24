@@ -85,12 +85,7 @@ classdef Map < handle
         % Invokes path planning algorithms to find path from start to goal
         % using specified method
         function NavigateMap(obj, goal, start, method)
-            if method == 0
-                %DXform method
-                dx = DXform(obj.map);
-                dx.plan(goal);
-                p = dx.query(start);
-            elseif method == 1
+            if method == 1
                 %D* method
                 ds = Dstar(obj.map);
                 ds.plan(goal);
