@@ -40,19 +40,25 @@ start = [1,2];
 %     start = goal;
 % end
 
-dx = DXform(map);
-dx.plot(map)
-dx.plan(goal);
-p = dx.query([1 1])
-dx.plot(p)
+% dx = DXform(map);
+% dx.plot(map)
+% dx.plan(goal);
+% p = dx.path([1 1])
+% % p = dx.query([1 1])
+% dx.plot(p)
 
-ds = Dstar(obj.map);
+ds = Dstar(map);
+tic;
 ds.plan(goal)
-dstar_path = ds.query([1 100]);
+dstar_path = ds.query([1 2]);
+disp(toc)
+figure;
 ds.plot(dstar_path)
 
 prm = PRM(map);
+tic;
 prm.plan(goal);
-prm_path = prm.query([100 100], goal)
+disp(toc)
+prm_path = prm.query([1 2], goal);
+figure;
 prm.plot(prm_path)
-numrows(p)
