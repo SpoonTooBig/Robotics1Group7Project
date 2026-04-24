@@ -10,6 +10,7 @@ classdef Map < handle
         y;
         parent; % TicTacToe object used by this map
         map;
+
     end
 
     methods
@@ -98,7 +99,7 @@ classdef Map < handle
                 %PRM method
                 prm = PRM(obj.map);
                 prm.plan(goal);
-                prm_path = prm.query(start, goal)
+                prm_path = prm.query(start, goal);
                 prm.plot(prm_path)
                 p = prm_path;
             end
@@ -129,7 +130,7 @@ classdef Map < handle
 
             % Draw Path by moving to initial point and then moving to each
             % point in determined path plan
-            p0 = MapToLocation(obj, p(1, :))
+            p0 = MapToLocation(obj, p(1, :));
             obj.parent.MoveTo(p0(1), p0(2));
             pause(.5)
             tic;
@@ -143,15 +144,47 @@ classdef Map < handle
             fprintf(' Time is to navigate the maze is: %4f seconds\n' , Ts1)
             fprintf('Path Length: %.2f\n', pathLength);
             fprintf('Smoothness: %.2f radians\n', smoothness);
+            persistent timeData pathData smoothData labels
+
+            if isempty(timeData)
+                timeData = zeros(1,3);
+                pathData = zeros(1,3);
+                smoothData = zeros(1,3);
+                labels = {'Dxform','D*','PRM'};
+            end
+
+            % Store current method results
+            timeData(method+1) = Ts1;
+            pathData(method+1) = pathLength;
+            smoothData(method+1) = smoothness;
             
-            % figure;
-            % scatter3(Ts1, pathLengths, smoothness, 120, 'filled');
-            % xlabel('Time');
-            % ylabel('Path Length');
-            % zlabel('Smoothness');
-            % title('Run-to-Run Comparison');
-            % grid on;
             
+            if method == 2
+
+                figure;
+
+                scatter3(timeData, pathData, smoothData, 150, 'filled');
+
+                xlabel('Time (seconds)');
+                ylabel('Path Length');
+                zlabel('Smoothness (radians)');
+
+                title('Algorithm Comparison');
+
+                grid on;
+                hold on;
+
+                for k = 1:3
+                    text(timeData(k), pathData(k), smoothData(k), ...
+                        ['  ' labels{k}]);
+                end
+
+            end
+       
         end
+        
+    
+
+    
     end
 end
