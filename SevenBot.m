@@ -1,5 +1,5 @@
-classdef TicTacToe < handle
-    %TICTACTOE Summary of this class goes here
+classdef SevenBot < handle
+    %SevenBot Summary of this class goes here
     %   Detailed explanation goes here
 
     properties
@@ -11,8 +11,8 @@ classdef TicTacToe < handle
     end
 
     methods
-        function obj = TicTacToe()
-            %TICTACTOE Construct an instance of this class
+        function obj = SevenBot()
+            %SevenBot Construct an instance of this class
             % obj. It first checks if a comPort has been found, where if it
             % has been found then it connects the obj to the arduino
             % property. servo 1 is connented to digital pin D5 on the arduino.

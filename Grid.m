@@ -8,7 +8,7 @@ classdef Grid < handle
         x;
         y;
         cellwidth;
-        parent; % TicTacToe object that owns this grid
+        parent; % Robot object that owns this grid
     end
 
     methods
