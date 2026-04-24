@@ -12,7 +12,7 @@ classdef SevenBot < handle
 
     methods
         function obj = SevenBot()
-            %SevenBot Construct an instance of this class
+            % SevenBot Construct an instance of this class
             % obj. It first checks if a comPort has been found, where if it
             % has been found then it connects the obj to the arduino
             % property. servo 1 is connented to digital pin D5 on the arduino.
@@ -129,8 +129,8 @@ classdef SevenBot < handle
         end
         function MoveTo(obj, x, y)
             %do inverse kinematics to find angles that robot is at
-            angles = obj.robot.ikine(transl(x, y, 0),'mask', [1 1 0 0 0 0]);
-            
+            angles = obj.robot.ikine(transl(x, y, 0),'mask', [1 1 0 0 0 0])
+
             %rescale the angles for each servo
             sAngle1 = 1.0 - rescale(angles(1), 0.0, 1.0, 'InputMin', -25*(pi/180), 'InputMax', 165*(pi/180));
             sAngle2 = 1.0 - rescale(angles(2), 0.0, 1.0, 'InputMin', -160*(pi/180), 'InputMax', 60*(pi/180));

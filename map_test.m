@@ -41,12 +41,18 @@ start = [1,2];
 % end
 
 dx = DXform(map);
+dx.plot(map)
 dx.plan(goal);
-p = dx.query(start)
+p = dx.query([1 1])
 dx.plot(p)
+
+ds = Dstar(obj.map);
+ds.plan(goal)
+dstar_path = ds.query([1 100]);
+ds.plot(dstar_path)
 
 prm = PRM(map);
 prm.plan(goal);
-prm_path = prm.query(start, goal)
+prm_path = prm.query([100 100], goal)
 prm.plot(prm_path)
 numrows(p)
