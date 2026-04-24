@@ -94,13 +94,13 @@ classdef Map < handle
                 %D* method
                 ds = Dstar(obj.map);
                 ds.plan(goal);
-                p = ds.query(start)
+                p = ds.query(start);
             elseif method == 2
                 %PRM method
                 prm = PRM(obj.map);
                 prm.plan(goal);
                 prm_path = prm.query(start, goal);
-                prm.plot(prm_path)
+                prm.plot(prm_path);
                 p = prm_path;
             end
 
@@ -140,9 +140,7 @@ classdef Map < handle
             for i = 2:length(p)
                 p1 = MapToLocation(obj, p(i-1, :));
                 p2 = MapToLocation(obj, p(i, :));
-                if p1 ~= p2
                 obj.parent.DrawLine(p1(1), p1(2), p2(1), p2(2), true);
-                end
             end
             obj.parent.RaisePen()
             Ts1 = toc;

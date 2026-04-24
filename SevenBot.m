@@ -70,7 +70,11 @@ classdef SevenBot < handle
                 y2;
                 leavePenDown = false;
             end
-
+            
+            % prevent same location causing math error
+            if x1 == x2 && y1 == y2
+                return
+            end
             if ~leavePenDown
                 obj.RaisePen();
             end
@@ -129,7 +133,7 @@ classdef SevenBot < handle
         end
         function MoveTo(obj, x, y)
             %do inverse kinematics to find angles that robot is at
-            angles = obj.robot.ikine(transl(x, y, 0),'mask', [1 1 0 0 0 0])
+            angles = obj.robot.ikine(transl(x, y, 0),'mask', [1 1 0 0 0 0]);
 
             %rescale the angles for each servo
             sAngle1 = 1.0 - rescale(angles(1), 0.0, 1.0, 'InputMin', -25*(pi/180), 'InputMax', 165*(pi/180));
